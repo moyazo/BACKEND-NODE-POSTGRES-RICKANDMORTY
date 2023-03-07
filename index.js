@@ -13,36 +13,35 @@ const usersRoutes = require('./src/routes/users');
 const { ensureAuthentication } = require('./src/middelware/auth');
 
 const startApp = async () => {
-    const app = express()
+    const app = express();
     dotenv.config();
     app.use(cors());
-    const port = process.env.port
+    const port = process.env.port;
 
-    app.use(bodyParser.json())
+    app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({
         extended: true
-    }))
+    }));
 
-    app.use(ensureAuthentication)
-    app.use('/characters', charactersRoutes)
-    app.use('/syncApi', syncApi)
-    app.use('/users', userRouter)
-    app.use('/auth', authRoutes)
-    app.use('/episodes', episodesRoutes)
-    app.use('/locations', locationsRoutes)
-    app.use('users', usersRoutes)
+    app.use(ensureAuthentication);
+    app.use('/auth', authRoutes);
+    app.use('/users', userRouter);
+    app.use('/characters', charactersRoutes);
+    app.use('/episodes', episodesRoutes);
+    app.use('/locations', locationsRoutes);
+    app.use('/syncApi', syncApi);
 
 
 
 
     try {
-        await db.sequelize.sync({ force: false })
+        await db.sequelize.sync({ force: false });
         app.listen(port, () => {
-            console.log('APP running on port ' + port)
-        })
+            console.log('APP running on port ' + port);
+        });
     } catch (error) {
-        console.log(error)
-        process.exit(error.message)
+        console.log('Error at start up the App' + error.message);
+        process.exit(1);
     }
 
 }
