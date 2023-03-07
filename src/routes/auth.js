@@ -10,11 +10,11 @@ const router = require('express').Router();
  */
 router.post('/signup', async (request, response) => {
     try {
-        const { email, password } = request.body;
+        const { email, password, name } = request.body;
         if (!email || !password) {
             response.status(502).json('Email or Password not found');
         }
-        const token = await signup({ email, password });
+        const token = await signup({ email, password, name });
         response.status(200).json(token);
     } catch (error) {
         response.status(500).json('Error at Sign up' + error.message);
