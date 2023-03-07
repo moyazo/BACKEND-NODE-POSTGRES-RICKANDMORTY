@@ -14,7 +14,7 @@ const signup = async ({ email, password }) => {
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(password, salt);
     const user = await User.create({ email, password: hashedPassword, salt });
-
+    
     return jsonwebtoken.sign({ email: user.email }, process.env.TOKEN_SECRET);
 };
 
