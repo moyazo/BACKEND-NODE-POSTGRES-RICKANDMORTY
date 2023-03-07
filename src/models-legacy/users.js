@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize')
-const db = require('../services/db')
+const Sequelize = require('sequelize');
+const db = require('../services/db');
 
 const User = db.define('users', {
     id: {
@@ -11,27 +11,24 @@ const User = db.define('users', {
 
     email: {
         type: Sequelize.STRING,
-        allowNull:false,
+        allowNull: false,
         unique: true,
     },
 
     password: {
         type: Sequelize.STRING,
-        allowNull:false
+        allowNull: false,
     },
 
     name: {
         type: Sequelize.STRING,
-        allowNull:true
+        allowNull: true,
     },
 
     salt: {
-        type:Sequelize.STRING,
-        allowNull:false
+        type: Sequelize.STRING,
+        allowNull: false,
     },
-    
-})
+});
 
-module.exports = User
-
-
+module.exports = User;

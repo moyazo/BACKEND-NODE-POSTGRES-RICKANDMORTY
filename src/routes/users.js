@@ -1,31 +1,23 @@
 const { getUserByEmail } = require('../controllers/users');
-const routerUser = require('express').Router()
-
+const routerUser = require('express').Router();
 
 routerUser.get('/profile', async (req, res) => {
     try {
-
-        const data = await getUserByEmail(req.user.email)
+        const data = await getUserByEmail(req.user.email);
         await data.reload();
         const user = {
             id: data.id,
             email: data.email,
-        }
-        res.status(200).json(user)
-        console.log(user)
-
+        };
+        res.status(200).json(user);
+        console.log(user);
     } catch (error) {
-
         console.log(error);
-        res.status(500).json(error.message)
-
-
+        res.status(500).json(error.message);
     }
+});
 
-
-})
-
-module.exports = routerUser
+module.exports = routerUser;
 
 // userRouter.post('/favorites/:characterId', async (request, response) => {
 //     try {
@@ -34,15 +26,15 @@ module.exports = routerUser
 //         const {user, isAdded} = await toggleTaskToFavorite({
 //             id: request.user.id,
 //             characterId
-//         }) 
+//         })
 //         // if (user === undefined) {
-//         //     response.status(200).json('Data no exist in data base')     
+//         //     response.status(200).json('Data no exist in data base')
 //         // }
 //         if (isAdded) {
 //         response.status(200).json('Data inserted succesfully')
 //         } else {
 //             response.status(200).json('Favorite deleted ok')
-//         } 
+//         }
 //     } catch (error) {
 //         if (error.message === 'No exists data in database') {
 //         response.status(400).json(error.message)

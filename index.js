@@ -19,9 +19,11 @@ const startApp = async () => {
     const port = process.env.port;
 
     app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({
-        extended: true
-    }));
+    app.use(
+        bodyParser.urlencoded({
+            extended: true,
+        })
+    );
 
     app.use(ensureAuthentication);
     app.use('/auth', authRoutes);
@@ -30,9 +32,6 @@ const startApp = async () => {
     app.use('/episodes', episodesRoutes);
     app.use('/locations', locationsRoutes);
     app.use('/syncApi', syncApi);
-
-
-
 
     try {
         await db.sequelize.sync({ force: false });
@@ -43,7 +42,6 @@ const startApp = async () => {
         console.log('Error at start up the App' + error.message);
         process.exit(1);
     }
+};
 
-}
-
-startApp()
+startApp();

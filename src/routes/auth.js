@@ -1,5 +1,5 @@
-const {signup, login} = require('../controllers/auth')
-const router = require('express').Router()
+const { signup, login } = require('../controllers/auth');
+const router = require('express').Router();
 
 /**
  * *SIGN UP ENDPOINT*
@@ -13,13 +13,13 @@ router.post('/signup', async (request, response) => {
         const { email, password } = request.body;
         if (!email || !password) {
             response.status(502).json('Email or Password not found');
-        } 
-        const token = await signup({email, password});
+        }
+        const token = await signup({ email, password });
         response.status(200).json(token);
     } catch (error) {
         response.status(500).json('Error at Sign up' + error.message);
     }
-})
+});
 /**
  * *LOGIN UP ENDPOINT*
  * *localhost:8000/auth/login*
@@ -29,16 +29,15 @@ router.post('/signup', async (request, response) => {
  */
 router.post('/login', async (request, response) => {
     try {
-        const {email, password} = request.body
+        const { email, password } = request.body;
         if (!email || !password) {
-            response.status(502).json('Incorrect data')
+            response.status(502).json('Incorrect data');
         }
-        const token = await login({email, password})
-        response.status(200).json(token)
+        const token = await login({ email, password });
+        response.status(200).json(token);
     } catch (error) {
-        response.status(500).json(error.message)
+        response.status(500).json(error.message);
     }
-})
+});
 
-module.exports = router
-
+module.exports = router;
