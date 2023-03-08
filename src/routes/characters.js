@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const { request, response } = require('express');
 const {
     getCharacterList,
     getCharacterById,

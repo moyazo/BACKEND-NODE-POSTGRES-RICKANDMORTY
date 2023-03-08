@@ -6,6 +6,7 @@ const {
     updateEpisode,
     removeEpisode,
 } = require('../controllers/episode');
+const getUserByEmail = require('../controllers/users.js').getUserByEmail;
 
 router.get('/', async (request, response) => {
     try {
@@ -44,6 +45,22 @@ router.put('/:id', async (request, response) => {
         response.status(200).json(episode);
     } catch (error) {
         response.status(500);
+    }
+});
+
+routerUser.get('/id/:token', async (req, res) => {
+    try {
+        const payload = jsonwebtoken.decode(
+            req.params.token,
+            process.env.TOKEN_SECRET
+        );
+        const data = await getUserByEmail(payload.email);
+        const userId = {
+            id: data.id,
+        };
+        res.status(200).json(userId);
+    } catch (error) {
+        res.status(500).json('Error at bring userId for post' + error.message);
     }
 });
 
