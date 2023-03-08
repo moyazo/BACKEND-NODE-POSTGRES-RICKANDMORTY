@@ -48,19 +48,22 @@ router.put('/:id', async (request, response) => {
     }
 });
 
-routerUser.get('/id/:token', async (req, res) => {
+router.get('/type', async (req, res) => {
     try {
-        const payload = jsonwebtoken.decode(
-            req.params.token,
-            process.env.TOKEN_SECRET
-        );
-        const data = await getUserByEmail(payload.email);
-        const userId = {
-            id: data.id,
-        };
-        res.status(200).json(userId);
+        const episodes = await getEpisodeList();
+        const type = episodes.map((episode) => {
+            return {
+                id: episode.id,
+                name: episode.name,
+            };
+        });
+        if (!type) {
+            res.status(403).json('NOT EPISODES FOUND');
+        }
+        res.status(200).json(type);
     } catch (error) {
-        res.status(500).json('Error at bring userId for post' + error.message);
+        console.log(error);
+        res.status(500).json('No new documents found' + error.message);
     }
 });
 
