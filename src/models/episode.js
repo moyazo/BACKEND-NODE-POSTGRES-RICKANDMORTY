@@ -8,7 +8,12 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            // Episode and Character N:M
+            User.belongsToMany(models.Episode, {
+                through: 'userFavoritesEpisode',
+                as: 'favoritesEpisodes',
+                foreignKey: 'episode_id',
+                onDelete: 'cascade'
+            });
         }
     }
     Episode.init(
@@ -34,6 +39,10 @@ module.exports = (sequelize, DataTypes) => {
             },
             episode: {
                 type: DataTypes.STRING,
+                allowNull: false,
+            },
+            characters: {
+                type: DataTypes.ENUM,
                 allowNull: false,
             },
             createdAt: {

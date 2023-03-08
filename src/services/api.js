@@ -55,6 +55,7 @@ async function apiEpisodesList() {
                 name: result.name,
                 air_date: result.air_date,
                 episode: result.episode,
+                characters: result.characters,
             }));
             const episodesToCreate = [];
             const existedResults = await Episode.findAll();

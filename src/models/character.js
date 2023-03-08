@@ -9,11 +9,11 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             models.Character.belongsToMany(models.User, {
-                through: 'usercharacter',
-                as: 'favoritedBy',
+                through: 'userFavoritesCharacters',
+                as: 'favoritesCharacters',
                 foreignKey: 'character_id',
-                onDelete: 'cascade',
-            })
+                onDelete: 'cascade'
+            });
         }
     }
     Character.init(

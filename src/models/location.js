@@ -8,7 +8,12 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            // Episode and Characters  N:M
+            Location.belongsToMany(models.User, {
+                through: 'userFavoritesLocations',
+                as: 'favoritesLocations',
+                foreignKey: 'location_id',
+                onDelete: 'cascade'
+            })
         }
     }
     Location.init(
