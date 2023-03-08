@@ -1,28 +1,37 @@
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('userCharacterFavorites', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      name: {
-        type: Sequelize.STRING
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
-    });
-  },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('userCharacterFavorites');
-  }
+    async up(queryInterface, Sequelize) {
+        await queryInterface.createTable('userCharacterFavorites', {
+            id: {
+                allowNull: false,
+                autoIncrement: true,
+                primaryKey: true,
+                type: Sequelize.INTEGER,
+            },
+            user_id: {
+                allowNull: false,
+                primaryKey: true,
+                type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4,
+            },
+            character_id: {
+                allowNull: false,
+                primaryKey: true,
+                type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4,
+            },
+            createdAt: {
+                allowNull: false,
+                type: Sequelize.DATE,
+            },
+            updatedAt: {
+                allowNull: false,
+                type: Sequelize.DATE,
+            },
+        });
+    },
+    async down(queryInterface, Sequelize) {
+        await queryInterface.dropTable('userCharacterFavorites');
+    },
 };

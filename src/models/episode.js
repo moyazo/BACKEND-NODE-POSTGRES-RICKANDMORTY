@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
             },
             characters: {
-                type: DataTypes.ENUM,
+                type: DataTypes.ARRAY(DataTypes.STRING),
                 allowNull: false,
             },
             createdAt: {
