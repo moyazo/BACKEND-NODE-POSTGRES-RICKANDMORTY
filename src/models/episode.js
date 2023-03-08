@@ -1,23 +1,48 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Episode extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // Episode and Character N:M
+    class Episode extends Model {
+        /**
+         * Helper method for defining associations.
+         * This method is not a part of Sequelize lifecycle.
+         * The `models/index` file will call this method automatically.
+         */
+        static associate(models) {
+            // Episode and Character N:M
+        }
     }
-  }
-  Episode.init({
-    name: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Episode',
-  });
-  return Episode;
+    Episode.init(
+        {
+            episode_id: {
+                type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4,
+                allowNull: false,
+            },
+            name: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            air_date: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            episode: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            createdAt: {
+                allowNull: false,
+                type: DataTypes.DATE,
+            },
+            updatedAt: {
+                allowNull: false,
+                type: DataTypes.DATE,
+            },
+        },
+        {
+            sequelize,
+            modelName: 'Episode',
+        }
+    );
+    return Episode;
 };

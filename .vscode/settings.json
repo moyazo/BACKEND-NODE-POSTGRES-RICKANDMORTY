@@ -9,6 +9,7 @@
         "rickandmorty",
         "Sincronizando",
         "startdb",
-        "stopdb"
+        "stopdb",
+        "UUIDV"
     ]
 }

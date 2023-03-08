@@ -11,12 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // character and episode   N:M
-      
+
     }
   }
   Character.init({
             character_id: {
-              type: DataTypes.INTEGER,
+              type: DataTypes.UUID,
+              defaultValue: DataTypes.UUIDV4,
               allowNull: false
             },
             name: {
@@ -35,6 +36,14 @@ module.exports = (sequelize, DataTypes) => {
               type: DataTypes.STRING,
               allowNull: false
             },
+            createdAt: {
+                allowNull: false,
+                type: DataTypes.DATE,
+            },
+            updatedAt: {
+                allowNull: false,
+                type: DataTypes.DATE,
+            }
   }, {
     sequelize,
     modelName: 'Character',
