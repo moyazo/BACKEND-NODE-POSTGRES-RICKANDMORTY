@@ -2,10 +2,8 @@ const db = require('../models');
 const Location = db.Location;
 
 async function getLocations(page) {
-    console.log('ejecutando api');
-
     try {
-        console.log(`https://rickandmortyapi.com/api/location?page=${page}`);
+        // 7
         const response = await fetch(
             `https://rickandmortyapi.com/api/location?page=${page}`
         );
@@ -30,7 +28,6 @@ async function getLocations(page) {
                 itemstoCreation.push(item);
             }
         }
-        // console.log(itemstoCreation)
 
         if (itemstoCreation.length > 0) {
             Location.bulkCreate(itemstoCreation);

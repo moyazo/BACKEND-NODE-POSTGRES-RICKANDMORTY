@@ -2,10 +2,8 @@ const db = require('../models');
 const Episode = db.Episode;
 
 async function getEpisodes(page) {
-    console.log('ejecutando api');
-
     try {
-        console.log(`https://rickandmortyapi.com/api/episode?page=${page}`);
+        // 3
         const response = await fetch(
             `https://rickandmortyapi.com/api/episode?page=${page}`
         );
@@ -30,7 +28,6 @@ async function getEpisodes(page) {
                 itemstoCreation.push(item);
             }
         }
-        // console.log(itemstoCreation)
 
         if (itemstoCreation.length > 0) {
             Episode.bulkCreate(itemstoCreation);

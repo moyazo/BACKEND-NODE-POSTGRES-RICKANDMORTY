@@ -2,10 +2,8 @@ const db = require('../models');
 const Character = db.Character;
 
 async function getData(page) {
-    console.log('ejecutando api');
-
     try {
-        console.log(`https://rickandmortyapi.com/api/character?page=${page}`);
+        // 42
         const response = await fetch(
             `https://rickandmortyapi.com/api/character?page=${page}`
         );
@@ -32,8 +30,6 @@ async function getData(page) {
                 itemstoCreation.push(item);
             }
         }
-        // console.log(itemstoCreation)
-
         if (itemstoCreation.length > 0) {
             Character.bulkCreate(itemstoCreation);
             return 'Sincronizando base de datos';
