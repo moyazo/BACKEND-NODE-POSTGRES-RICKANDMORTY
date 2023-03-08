@@ -3,9 +3,15 @@
 module.exports = {
     async up(queryInterface, Sequelize) {
         await queryInterface.createTable('Characters', {
-            character_id: {
+            id: {
                 type: Sequelize.UUID,
                 defaultValue: Sequelize.UUIDV4,
+                primaryKey: true,
+                allowNull: false,
+            },
+            character_id: {
+                type: Sequelize.INTEGER,
+                defaultValue: Sequelize.INTEGER,
                 allowNull: false,
             },
             name: {

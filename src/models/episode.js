@@ -13,9 +13,15 @@ module.exports = (sequelize, DataTypes) => {
     }
     Episode.init(
         {
-            episode_id: {
+            id: {
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
+                primaryKey: true,
+                allowNull: false,
+            },
+            episode_id: {
+                type: DataTypes.INTEGER,
+                defaultValue: DataTypes.INTEGER,
                 allowNull: false,
             },
             name: {

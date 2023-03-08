@@ -3,30 +3,36 @@
 module.exports = {
     async up(queryInterface, Sequelize) {
         await queryInterface.createTable('Locations', {
-            locationId: {
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
+            id: {
+                type: Sequelize.UUID,
+                defaultValue: Sequelize.UUIDV4,
+                primaryKey: true,
+                allowNull: false,
+            },
+            location_id: {
+                type: Sequelize.INTEGER,
+                defaultValue: Sequelize.INTEGER,
                 allowNull: false,
             },
             name: {
-                type: DataTypes.STRING,
+                type: Sequelize.STRING,
                 allowNull: false,
             },
             type: {
-                type: DataTypes.STRING,
+                type: Sequelize.STRING,
                 allowNull: false,
             },
             dimension: {
-                type: DataTypes.STRING,
+                type: Sequelize.STRING,
                 allowNull: false,
             },
             createdAt: {
                 allowNull: false,
-                type: DataTypes.DATE,
+                type: Sequelize.DATE,
             },
             updatedAt: {
                 allowNull: false,
-                type: DataTypes.DATE,
+                type: Sequelize.DATE,
             },
         });
     },

@@ -13,9 +13,15 @@ module.exports = (sequelize, DataTypes) => {
     }
     Location.init(
         {
-            locationId: {
+            id: {
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
+                primaryKey: true,
+                allowNull: false,
+            },
+            location_id: {
+                type: DataTypes.INTEGER,
+                defaultValue: DataTypes.INTEGER,
                 allowNull: false,
             },
             name: {
@@ -37,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
             updatedAt: {
                 allowNull: false,
                 type: DataTypes.DATE,
-            }
+            },
         },
         {
             sequelize,

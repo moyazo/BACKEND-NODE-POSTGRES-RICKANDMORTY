@@ -3,30 +3,36 @@
 module.exports = {
     async up(queryInterface, Sequelize) {
         await queryInterface.createTable('Episodes', {
+            id: {
+                type: Sequelize.UUID,
+                defaultValue: Sequelize.UUIDV4,
+                primaryKey: true,
+                allowNull: false,
+            },
             episode_id: {
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
+                type: Sequelize.INTEGER,
+                defaultValue: Sequelize.INTEGER,
                 allowNull: false,
             },
             name: {
-                type: DataTypes.STRING,
+                type: Sequelize.STRING,
                 allowNull: false,
             },
             air_date: {
-                type: DataTypes.STRING,
+                type: Sequelize.STRING,
                 allowNull: false,
             },
             episode: {
-                type: DataTypes.STRING,
+                type: Sequelize.STRING,
                 allowNull: false,
             },
             createdAt: {
                 allowNull: false,
-                type: DataTypes.DATE,
+                type: Sequelize.DATE,
             },
             updatedAt: {
                 allowNull: false,
-                type: DataTypes.DATE,
+                type: Sequelize.DATE,
             },
         });
     },
