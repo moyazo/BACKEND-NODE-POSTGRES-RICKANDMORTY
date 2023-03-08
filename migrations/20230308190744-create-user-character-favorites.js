@@ -12,14 +12,14 @@ module.exports = {
             user_id: {
                 allowNull: false,
                 primaryKey: true,
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
+                type: Sequelize.UUID,
+                defaultValue: Sequelize.UUIDV4,
             },
             character_id: {
                 allowNull: false,
                 primaryKey: true,
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
+                type: Sequelize.UUID,
+                defaultValue: Sequelize.UUIDV4,
             },
             createdAt: {
                 allowNull: false,
