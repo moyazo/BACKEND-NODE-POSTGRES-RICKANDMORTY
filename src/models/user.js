@@ -12,19 +12,19 @@ module.exports = (sequelize, DataTypes) => {
                 through: 'userFavoritesCharacters',
                 as: 'favoritesCharacters',
                 foreignKey: 'user_id',
-                onDelete: 'cascade'
+                onDelete: 'cascade',
             });
             User.belongsToMany(models.Location, {
                 through: 'userFavoritesLocations',
                 as: 'favoritesLocations',
                 foreignKey: 'user_id',
-                onDelete: 'cascade'
+                onDelete: 'cascade',
             });
             User.belongsToMany(models.Episode, {
                 through: 'userFavoritesEpisode',
                 as: 'favoritesEpisodes',
                 foreignKey: 'user_id',
-                onDelete: 'cascade'
+                onDelete: 'cascade',
             });
         }
     }

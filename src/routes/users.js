@@ -1,4 +1,9 @@
-const { getUserByEmail } = require('../controllers/users');
+const {
+    getUserByEmail,
+    toggleTaskToFavoriteCharacter,
+    toggleTaskToFavoriteLocation,
+    toggleTaskToFavoriteEpisode,
+} = require('../controllers/users');
 const routerUser = require('express').Router();
 
 routerUser.get('/profile', async (req, res) => {
@@ -16,43 +21,86 @@ routerUser.get('/profile', async (req, res) => {
         res.status(500).json(error.message);
     }
 });
+routerUser.post(
+    '/favoritesCharacter/:characterId',
+    async (request, response) => {
+        try {
+            //hay que pasarlo en body en vez de en params?
+            const { characterId } = request.params;
+            const userID = request.user.id;
+            const { user, isAdded } = await toggleTaskToFavoriteCharacter(
+                userID,
+                characterId
+            );
 
+            if (isAdded) {
+                response.status(200).json('Favorite added ok');
+            } else {
+                response.status(200).json('Favorite deleted ok');
+            }
+        } catch (error) {
+            if (error.message === 'No exists data in database') {
+                response.status(400).json(error.message);
+            } else {
+                response.status(500).json('No exists data in database');
+            }
+        }
+    }
+);
+
+routerUser.post('/favoritesLocation/:locationId', async (request, response) => {
+    try {
+        const { locationId } = request.params;
+        const { user, isAdded } = await toggleTaskToFavoriteLocation({
+            id: request.user.id,
+            locationId,
+        });
+        if (isAdded) {
+            response.status(200).json('Favorite added ok');
+        } else {
+            response.status(200).json('Favorite deleted ok');
+        }
+    } catch (error) {
+        if (error.message === 'No exists data in database') {
+            response.status(400).json(error.message);
+        } else {
+            response.status(500).json('No exists data in database');
+        }
+    }
+});
+
+routerUser.post('/favoritesEpisode/:episodeId', async (request, response) => {
+    try {
+        //hay que pasarlo en body en vez de en params?
+        const { episodeId } = request.params;
+        const { user, isAdded } = await toggleTaskToFavoriteEpisode({
+            id: request.user.id,
+            episodeId,
+        });
+        if (isAdded) {
+            response.status(200).json('Favorite added ok');
+        } else {
+            response.status(200).json('Favorite deleted ok');
+        }
+    } catch (error) {
+        if (error.message === 'No exists data in database') {
+            response.status(400).json(error.message);
+        } else {
+            response.status(500).json('No exists data in database');
+        }
+    }
+});
+
+routerUser.get('/favorites/:characterId', async (request, response) => {
+    try {
+        const { characterId } = request.params;
+        const user = await getUserById(characterId);
+        const favorites = user.favorites;
+        response.status(200).json(favorites);
+    } catch (error) {
+        response.status(500).json('Cannot get favorites');
+    }
+});
 module.exports = routerUser;
-
-// userRouter.post('/favorites/:characterId', async (request, response) => {
-//     try {
-//         //hay que pasarlo en body en vez de en params?
-//         const {characterId} = request.params
-//         const {user, isAdded} = await toggleTaskToFavorite({
-//             id: request.user.id,
-//             characterId
-//         })
-//         // if (user === undefined) {
-//         //     response.status(200).json('Data no exist in data base')
-//         // }
-//         if (isAdded) {
-//         response.status(200).json('Data inserted succesfully')
-//         } else {
-//             response.status(200).json('Favorite deleted ok')
-//         }
-//     } catch (error) {
-//         if (error.message === 'No exists data in database') {
-//         response.status(400).json(error.message)
-//         } else {
-//             response.status(500).json('No exists data in database')
-//         }
-//     }
-// })
-
-// userRouter.get('/favorites/:characterId', async (request, response) => {
-//     try {
-//         const {characterId} = request.params
-//         const user = await getUserById(characterId)
-//         const favorites = user.favorites
-//         response.status(200).json(favorites)
-//     } catch (error) {
-//         response.status(500).json('Cannot get favorites')
-//     }
-// })
 
 // module.exports = userRouter

@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
                 through: 'userFavoritesLocations',
                 as: 'favoritesLocations',
                 foreignKey: 'location_id',
-                onDelete: 'cascade'
-            })
+                onDelete: 'cascade',
+            });
         }
     }
     Location.init(

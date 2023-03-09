@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
                 through: 'userFavoritesEpisode',
                 as: 'favoritesEpisodes',
                 foreignKey: 'episode_id',
-                onDelete: 'cascade'
+                onDelete: 'cascade',
             });
         }
     }
