@@ -1,6 +1,7 @@
 const db = require('../models');
 const User = db.User;
 const Character = db.Character;
+const Location = db.Location;
 
 const getUserById = async (id) => {
     const user = await User.findByPK(id);
@@ -59,36 +60,47 @@ const toggleTaskToFavoriteCharacter = async (userId, characterId) => {
         console.log('Error in toggleTaskToFavoriteCharacter', error.message);
     }
 };
-const toggleTaskToFavoriteLocation = async ({ id, locationId }) => {
-    let user = await User.findByPK(id);
-    let currentFavList = user.get('favorites');
-    let newFavsList = currentFavList
-        .filter(() => true)
-        .map((id_) => Number(id_));
-
-    const existed = currentFavList.includes(Number(locationId));
-    let isAdded = false;
-
-    if (existed) {
-        newFavsList = currentFavList.filter(
-            (item) => Number(item) !== Number(locationId)
+const toggleTaskToFavoriteLocation = async ( userId, locationId ) => {
+    try {
+        let user = await User.findOne({
+            where: { id: userId },
+            attributes: { exclude: ['password', 'salt'] },
+            include: {
+                model: db.Location,
+                as: 'favoritesLocations',
+            },
+        });
+        let currentFavList = (user.favoritesLocations || []).map(
+            (item) => item.id
         );
-    } else {
-        const fav = await Character.findByPK(locationId);
-        if (!fav) {
-            throw new Error('No exists data in database');
-        } else {
-            newFavsList.push(locationId);
+        console.log({currentFavList});
+        let existed = currentFavList.includes(locationId);
+        console.log(existed);
+        let isAdded = false;
+
+        if (!existed) {
+            const location = await Location.findOne({
+                where: { id: locationId },
+            });
+
+            if (!location) {
+                throw new Error('Location not found');
+            }
+            await user.addFavoritesLocations(location);
             isAdded = true;
+        } else {
+            const newList = currentFavList.filter(
+                (item) => item !== locationId
+            );
+            console.log('hola')
+            await user.setFavoritesLocations(newList);
+            isAdded = false;
         }
+
+        return { user, isAdded };
+    } catch (error) {
+        console.log('Error in toggleTaskToFavoriteLocation', error.message);
     }
-
-    await User.update({ favorites: newFavsList }, { where: { id: id } });
-    user = await User.findByPK(id, {
-        attributes: { exclude: ['password', 'salt'] },
-    });
-
-    return { user: user, isAdded: isAdded };
 };
 const toggleTaskToFavoriteEpisode = async ({ id, episodeId }) => {
     let user = await User.findByPK(id);

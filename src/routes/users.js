@@ -51,10 +51,7 @@ routerUser.post(
 routerUser.post('/favoritesLocation/:locationId', async (request, response) => {
     try {
         const { locationId } = request.params;
-        const { user, isAdded } = await toggleTaskToFavoriteLocation({
-            id: request.user.id,
-            locationId,
-        });
+        const { user, isAdded } = await toggleTaskToFavoriteLocation(request.user.id,locationId);
         if (isAdded) {
             response.status(200).json('Favorite added ok');
         } else {
