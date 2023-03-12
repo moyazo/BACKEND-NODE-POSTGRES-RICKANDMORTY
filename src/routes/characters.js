@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const {
     getCharacterList,
+    getCharacterBySpecies,
     getCharacterById,
     createCharacter,
     updateCharacter,
@@ -15,10 +16,19 @@ router.get('/', async (request, response) => {
         response.status(500);
     }
 });
+router.get('/species', async (request, response) => {
+    try {
+        const character = await getCharacterBySpecies();
+        response.status(200).json(character);
+    } catch (error) {
+        response.status(500);
+    }
+});
 
 router.get('/:id', async (request, response) => {
     try {
         const { id } = request.params;
+        console.log(id);
         const character = await getCharacterById(id);
         response.status(200).json(character);
     } catch (error) {

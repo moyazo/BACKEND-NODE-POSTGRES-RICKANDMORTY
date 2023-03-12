@@ -11,7 +11,6 @@ module.exports = {
             },
             episode_id: {
                 type: Sequelize.INTEGER,
-                defaultValue: Sequelize.INTEGER,
                 allowNull: false,
             },
             name: {
@@ -27,7 +26,7 @@ module.exports = {
                 allowNull: false,
             },
             characters: {
-                type: Sequelize.ARRAY(Sequelize.STRING),
+                type: Sequelize.ARRAY(Sequelize.INTEGER),
                 allowNull: false,
             },
             createdAt: {

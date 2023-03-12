@@ -1,4 +1,5 @@
 const models = require('../models');
+const Character = models.Character;
 
 const getCharacterList = async () => {
     const character = await models.Character.findAll({
@@ -7,8 +8,30 @@ const getCharacterList = async () => {
     return character;
 };
 
+const getCharacterBySpecies = async () => {
+    const species = await models.Character.findAll({
+        order: [['species', 'DESC']],
+        distinct: true,
+        group: ['species'],
+        attributes: {
+            exclude: [
+                'id',
+                'character_id',
+                'name',
+                'status',
+                'image',
+                'createdAt',
+                'updatedAt',
+            ],
+        },
+    });
+    return species;
+};
+
 const getCharacterById = async (id) => {
-    const character = await models.Character.findOne({ where: { id } });
+    const character = await models.Character.findOne({
+        where: { id },
+    });
     return character;
 };
 
@@ -42,4 +65,5 @@ module.exports = {
     createCharacter,
     updateCharacter,
     removeCharacter,
+    getCharacterBySpecies,
 };

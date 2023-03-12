@@ -5,7 +5,7 @@ const Location = db.Location;
 
 async function apiCharactersList() {
     try {
-        for (let i = 1; i < 11; i++) {
+        for (let i = 1; i < 42; i++) {
             const response = await fetch(
                 `https://rickandmortyapi.com/api/character?page=${i}`
             );
@@ -34,8 +34,8 @@ async function apiCharactersList() {
             if (characterToCreate.length > 0) {
                 Character.bulkCreate(characterToCreate);
             }
-            await apiEpisodesList();
         }
+        await apiEpisodesList();
     } catch (error) {
         console.log('Error al sincronizar los personajes ' + error.message);
     }
@@ -43,38 +43,83 @@ async function apiCharactersList() {
 
 async function apiEpisodesList() {
     try {
-        for (let i = 1; i < 4; i++) {
-            const response = await fetch(
-                `https://rickandmortyapi.com/api/episode?page=${i}`
-            );
-            const data = await response.json();
-            const results = data.results;
+        const page1Response = await fetch(
+            'https://rickandmortyapi.com/api/episode?page=1'
+        );
+        const page1Data = await page1Response.json();
+        const page1Results = page1Data.results;
 
-            const responseResults = results.map((result) => ({
-                episode_id: result.id,
-                name: result.name,
-                air_date: result.air_date,
-                episode: result.episode,
-                characters: result.characters,
-            }));
-            const episodesToCreate = [];
-            const existedResults = await Episode.findAll();
+        const page2Response = await fetch(
+            'https://rickandmortyapi.com/api/episode?page=2'
+        );
+        const page2Data = await page2Response.json();
+        const page2Results = page2Data.results;
 
-            for (const item of responseResults) {
-                const match = existedResults.find(
-                    (existedResult) =>
-                        existedResult.episode_id === item.episode_id
+        const page3Response = await fetch(
+            'https://rickandmortyapi.com/api/episode?page=3'
+        );
+        const page3Data = await page3Response.json();
+        const page3Results = page3Data.results;
+
+        const allResults = [...page1Results, ...page2Results, ...page3Results];
+
+        const responseResults = await Promise.all(
+            allResults.map(async (result) => {
+                const episodeCharactersId = await Promise.all(
+                    result.characters.map(async (character) => {
+                        try {
+                            // const characterResponse = await fetch(character);
+                            // const characterData =
+                            //     await characterResponse.json();
+                            const characterId = character.split('/')[5];
+                            console.log(character.split('/'));
+                            return characterId;
+                        } catch (error) {
+                            console.log(
+                                'Error al llamar a personajes de episodio' +
+                                    error
+                            );
+                        }
+                    })
                 );
-                if (!match) {
-                    episodesToCreate.push(item);
-                }
-            }
 
-            if (episodesToCreate.length > 0) {
-                Episode.bulkCreate(episodesToCreate);
+                return {
+                    episode_id: result.id,
+                    name: result.name,
+                    air_date: result.air_date,
+                    episode: result.episode,
+                    characters: episodeCharactersId,
+                };
+            })
+        );
+
+        const episodesToCreate = [];
+        const existedResults = await Episode.findAll();
+
+        for (const item of responseResults) {
+            const match = existedResults.find(
+                (existedResult) => existedResult.episode_id === item.episode_id
+            );
+            if (!match) {
+                episodesToCreate.push(item);
             }
-            await apiLocationsList();
         }
+
+        if (episodesToCreate.length > 0) {
+            const createdEpisodes = await Episode.bulkCreate(episodesToCreate);
+
+            for (const episode of createdEpisodes) {
+                const characters = episode.characters;
+                const charactersDb = await Character.findAll({
+                    where: { character_id: characters },
+                });
+                const charactersDbIds = charactersDb.map(
+                    (character) => character.id
+                );
+                await episode.addCharactersOfEpisode(charactersDbIds);
+            }
+        }
+        await apiLocationsList();
     } catch (error) {
         console.log('Error al sincronizar episodes ' + error.message);
     }

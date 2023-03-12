@@ -11,7 +11,13 @@ module.exports = (sequelize, DataTypes) => {
             Episode.belongsToMany(models.User, {
                 through: 'userFavoritesEpisode',
                 as: 'favoritesEpisodes',
-                foreignKey: 'episode_id',
+                foreignKey: 'episode_FK',
+                onDelete: 'cascade',
+            });
+            Episode.belongsToMany(models.Character, {
+                through: 'episodeCharacters',
+                as: 'charactersOfEpisode',
+                foreignKey: 'episode_FK',
                 onDelete: 'cascade',
             });
         }
@@ -26,7 +32,6 @@ module.exports = (sequelize, DataTypes) => {
             },
             episode_id: {
                 type: DataTypes.INTEGER,
-                defaultValue: DataTypes.INTEGER,
                 allowNull: false,
             },
             name: {
@@ -42,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
             },
             characters: {
-                type: DataTypes.ARRAY(DataTypes.STRING),
+                type: DataTypes.ARRAY(DataTypes.INTEGER),
                 allowNull: false,
             },
             createdAt: {

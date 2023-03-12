@@ -25,10 +25,10 @@ const toggleTaskToFavoriteCharacter = async (userId, characterId) => {
         let currentFavList = (user.favoritesCharacters || []).map(
             (item) => item.id
         );
-        console.log({currentFavList});
+        console.log({ currentFavList });
         let existed = currentFavList.includes(characterId);
         console.log(characterId);
-        console.log({existed});
+        console.log({ existed });
         let isAdded = false;
 
         if (!existed) {
@@ -61,7 +61,7 @@ const toggleTaskToFavoriteCharacter = async (userId, characterId) => {
         console.log('Error in toggleTaskToFavoriteCharacter', error.message);
     }
 };
-const toggleTaskToFavoriteLocation = async ( userId, locationId ) => {
+const toggleTaskToFavoriteLocation = async (userId, locationId) => {
     try {
         let user = await User.findOne({
             where: { id: userId },
@@ -100,7 +100,7 @@ const toggleTaskToFavoriteLocation = async ( userId, locationId ) => {
         console.log('Error in toggleTaskToFavoriteLocation', error.message);
     }
 };
-const toggleTaskToFavoriteEpisode = async ( userId, episodeId ) => {
+const toggleTaskToFavoriteEpisode = async (userId, episodeId) => {
     try {
         let user = await User.findOne({
             where: { id: userId },
@@ -127,9 +127,7 @@ const toggleTaskToFavoriteEpisode = async ( userId, episodeId ) => {
             await user.addFavoritesEpisodes(episode);
             isAdded = true;
         } else {
-            const newList = currentFavList.filter(
-                (item) => item !== episodeId
-            );
+            const newList = currentFavList.filter((item) => item !== episodeId);
             await user.setFavoritesEpisodes(newList);
             isAdded = false;
         }

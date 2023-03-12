@@ -11,7 +11,13 @@ module.exports = (sequelize, DataTypes) => {
             models.Character.belongsToMany(models.User, {
                 through: 'userFavoritesCharacters',
                 as: 'favoritesCharacters',
-                foreignKey: 'character_id',
+                foreignKey: 'character_FK',
+                onDelete: 'cascade',
+            });
+            models.Character.belongsToMany(models.Episode, {
+                through: 'charactersEpisodes',
+                as: 'episodesOfCharacter',
+                foreignKey: 'character_FK',
                 onDelete: 'cascade',
             });
         }

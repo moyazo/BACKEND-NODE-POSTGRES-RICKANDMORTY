@@ -7,7 +7,7 @@ const getLocationList = async () => {
 };
 
 const getLocationById = async (id) => {
-    const location = await Location.findOne({where: {id: id}});
+    const location = await Location.findOne({ where: { id: id } });
     return location;
 };
 

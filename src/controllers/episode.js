@@ -7,7 +7,7 @@ const getEpisodeList = async () => {
 };
 
 const getEpisodeById = async (id) => {
-    const episode = await Episode.findOne({where: {id}});
+    const episode = await Episode.findOne({ where: { id } });
     return episode;
 };
 
