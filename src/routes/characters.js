@@ -48,6 +48,7 @@ router.post('/', async (request, response) => {
 
 router.put('/:id', async (request, response) => {
     try {
+        console.log('hola');
         const { id } = request.params;
         const data = request.body;
         const character = await updateCharacter(id, data);

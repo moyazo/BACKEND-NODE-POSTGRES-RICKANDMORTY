@@ -72,8 +72,11 @@ async function apiEpisodesList() {
                             // const characterData =
                             //     await characterResponse.json();
                             const characterId = character.split('/')[5];
-                            console.log(character.split('/'));
-                            return characterId;
+                            const characterIdDb = await Character.findOne({
+                                where: { character_id: characterId },
+                            });
+                            console.log(characterIdDb.id);
+                            return characterIdDb.id;
                         } catch (error) {
                             console.log(
                                 'Error al llamar a personajes de episodio' +
@@ -111,11 +114,12 @@ async function apiEpisodesList() {
             for (const episode of createdEpisodes) {
                 const characters = episode.characters;
                 const charactersDb = await Character.findAll({
-                    where: { character_id: characters },
+                    where: { id: characters },
                 });
                 const charactersDbIds = charactersDb.map(
                     (character) => character.id
                 );
+                console.log({ charactersDb });
                 await episode.addCharactersOfEpisode(charactersDbIds);
             }
         }

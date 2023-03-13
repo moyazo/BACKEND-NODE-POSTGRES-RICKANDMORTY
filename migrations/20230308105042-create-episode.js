@@ -26,7 +26,7 @@ module.exports = {
                 allowNull: false,
             },
             characters: {
-                type: Sequelize.ARRAY(Sequelize.INTEGER),
+                type: Sequelize.ARRAY(Sequelize.STRING),
                 allowNull: false,
             },
             createdAt: {
