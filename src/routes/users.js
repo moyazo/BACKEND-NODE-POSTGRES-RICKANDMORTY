@@ -3,6 +3,7 @@ const {
     toggleTaskToFavoriteCharacter,
     toggleTaskToFavoriteLocation,
     toggleTaskToFavoriteEpisode,
+    getUserById
 } = require('../controllers/users');
 const routerUser = require('express').Router();
 
@@ -13,6 +14,7 @@ routerUser.get('/profile', async (req, res) => {
         const user = {
             id: data.id,
             email: data.email,
+            name: data.name,
         };
         res.status(200).json(user);
         console.log(user);
@@ -95,7 +97,8 @@ routerUser.get('/favorites/:characterId', async (request, response) => {
     try {
         const { characterId } = request.params;
         const user = await getUserById(characterId);
-        const favorites = user.favorites;
+        const favorites = user.favoritesCharacters
+        console.log(favorites);
         response.status(200).json(favorites);
     } catch (error) {
         response.status(500).json('Cannot get favorites');

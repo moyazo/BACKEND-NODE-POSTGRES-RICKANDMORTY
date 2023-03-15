@@ -5,7 +5,12 @@ const Location = db.Location;
 const Episode = db.Episode;
 
 const getUserById = async (id) => {
-    const user = await User.findByPK(id);
+    const user = await User.findOne({
+        where: { id }, include: {
+            model: db.Character,
+            as: 'favoritesCharacters',
+        },
+    });
     return user;
 };
 const getUserByEmail = async (email) => {
