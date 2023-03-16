@@ -28,7 +28,6 @@ router.get('/species', async (request, response) => {
 router.get('/:id', async (request, response) => {
     try {
         const { id } = request.params;
-        console.log(id);
         const character = await getCharacterById(id);
         response.status(200).json(character);
     } catch (error) {
@@ -38,7 +37,6 @@ router.get('/:id', async (request, response) => {
 
 router.post('/', async (request, response) => {
     try {
-        console.log('hola')
         const data = request.body;
         const character = await createCharacter(data);
         response.status(200).json(character);
@@ -49,7 +47,6 @@ router.post('/', async (request, response) => {
 
 router.put('/:id', async (request, response) => {
     try {
-        console.log('hola');
         const { id } = request.params;
         const data = request.body;
         const character = await updateCharacter(id, data);

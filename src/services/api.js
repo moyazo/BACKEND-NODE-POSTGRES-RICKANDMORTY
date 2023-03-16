@@ -68,14 +68,10 @@ async function apiEpisodesList() {
                 const episodeCharactersId = await Promise.all(
                     result.characters.map(async (character) => {
                         try {
-                            // const characterResponse = await fetch(character);
-                            // const characterData =
-                            //     await characterResponse.json();
                             const characterId = character.split('/')[5];
                             const characterIdDb = await Character.findOne({
                                 where: { character_id: characterId },
                             });
-                            console.log(characterIdDb.id);
                             return characterIdDb.id;
                         } catch (error) {
                             console.log(
