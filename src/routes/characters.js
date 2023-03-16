@@ -38,11 +38,12 @@ router.get('/:id', async (request, response) => {
 
 router.post('/', async (request, response) => {
     try {
+        console.log('hola')
         const data = request.body;
         const character = await createCharacter(data);
         response.status(200).json(character);
     } catch (error) {
-        response.status(500);
+        response.status(500).json(error.message);
     }
 });
 

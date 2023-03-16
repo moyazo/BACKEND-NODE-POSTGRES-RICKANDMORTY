@@ -3,7 +3,7 @@ const Character = models.Character;
 
 const getCharacterList = async () => {
     const character = await models.Character.findAll({
-        order: [['id', 'DESC']],
+        order: [['createdAt', 'DESC']],
     });
     return character;
 };
@@ -12,7 +12,7 @@ const getCharacterBySpecies = async () => {
     const species = await models.Character.findAll({
         order: [['species', 'DESC']],
         distinct: true,
-        group: ['species'],
+        group: ['createdAt'],
         attributes: {
             exclude: [
                 'id',
@@ -35,8 +35,8 @@ const getCharacterById = async (id) => {
     return character;
 };
 
-const createCharacter = async ({ name }) => {
-    const character = await models.Character.create({ name });
+const createCharacter = async (data) => {
+    const character = await models.Character.create(data);
     return character;
 };
 

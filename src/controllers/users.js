@@ -6,7 +6,8 @@ const Episode = db.Episode;
 
 const getUserById = async (id) => {
     const user = await User.findOne({
-        where: { id }, include: {
+        where: { id },
+        include: {
             model: db.Character,
             as: 'favoritesCharacters',
         },
